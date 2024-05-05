@@ -32,7 +32,7 @@ function App() {
           <ShowNavBar>
             <Navbar />
           </ShowNavBar>
-          <div className="main flex justify-center items-center overflow-hidden border-2 border-black sm:w-[640px] md:w-[768px] lg:w-[1024px] xl:w-[1280px] min-[1440px]:w-[1440px]">
+          <div className="main flex justify-center items-center overflow-hidden border-2 sm:w-[640px] md:w-[768px] lg:w-[1024px] xl:w-[1280px] min-[1440px]:w-[1440px]">
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/signup' element={<Signup />} />
