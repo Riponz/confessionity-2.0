@@ -4,22 +4,48 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './Pages/Home'
 import Groups from './Pages/Groups'
 import Profile from './Pages/Profile'
+import Signup from './Pages/Signup'
+import Login from './Pages/Login'
+import React, { createContext, useEffect, useState } from 'react'
+import { userGroup } from './assets/baseUrl'
+import axios from 'axios'
+import GroupPage from './Components/GroupPage'
+import ShowNavBar from './Components/ShowNavBar'
+
+export const userContext = createContext()
 
 function App() {
-  return (
-    <>
-      <div className='w-full flex justify-center bg-[#e5e7eb] mt-20 items-center'>
-        <Navbar />
-        <div className="main overflow-hidden border-2 sm:w-[640px] md:w-[768px] lg:w-[1024px] min-[1440px]:w-[1440px]">
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='groups' element={<Groups />} />
-            <Route path='profile' element={<Profile />} />
-          </Routes>
-        </div>
-      </div>
 
-    </>
+  const [uid, setUid] = useState("")
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [reload, setReload] = useState(false)
+  const [groups, setGroups] = useState([])
+  const [toggle, setToggle] = useState([])
+
+
+
+  return (
+    <userContext.Provider value={{ toggle: toggle, setToggle: setToggle, groups: groups, setGroups: setGroups, reload: reload, setReload: setReload, uid: uid, username: username, email: email, setUid: setUid, setUsername: setUsername, setEmail: setEmail }}>
+      <>
+        <div className='w-full flex justify-center bg-gradient-to-r from-violet-100 to-indigo-100 items-center'>
+          <ShowNavBar>
+            <Navbar />
+          </ShowNavBar>
+          <div className="main flex justify-center items-center overflow-hidden border-2 border-black sm:w-[640px] md:w-[768px] lg:w-[1024px] xl:w-[1280px] min-[1440px]:w-[1440px]">
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/signup' element={<Signup />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='groups' element={<Groups />} />
+              <Route path='group/:gid' element={<GroupPage />} />
+              <Route path='profile' element={<Profile />} />
+            </Routes>
+          </div>
+        </div>
+
+      </>
+    </userContext.Provider >
   )
 }
 

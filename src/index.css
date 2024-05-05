@@ -16,3 +16,6 @@
 html{
     background-color: #e5e7eb;
 }
+*{
+    box-sizing: border-box;
+}

@@ -1,12 +1,234 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import SearchIcon from '@mui/icons-material/Search';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import Card from '../Components/Card';
+import GroupCard from '../Components/GroupCard';
+import Navbar from '../Components/Navbar';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { userContext } from '../App';
+import { addGroupMember, createGroup, getAllGroups, getUsername, userGroup } from './../assets/baseUrl'
+import axios from 'axios';
+import CloseIcon from '@mui/icons-material/Close';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../firebaseConfig';
+import GroupSearch from '../Components/GroupPage';
+import { useNavigate } from 'react-router-dom';
 
 function Groups() {
+  const str = "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Praesentium laudantium iure eum reiciendis eius dicta voluptatum officiis suscipit, nobis maiores libero quasi. Iste facere provident eligendi deleniti quod exercitationem quas in sapiente saepe et vero ullam officiis praesentium, vel dolores, laborum odio architecto doloremque autem sint fuga optio ipsa. Ipsam."
+  const [gname, setGname] = useState("")
+  const [gdesc, setGdesc] = useState("")
+  const [gtopic, setGtopic] = useState("")
+  const [open, setOpen] = useState(false)
+  const [allGroups, setAllGroups] = useState([])
+  const [search, setSearch] = useState("")
+
+
+  const { uid, username, groups, setGroups, setUid, setEmail, setUsername, email } = useContext(userContext);
+
+  const navigate = useNavigate()
+
+  const handleSpecificGroup = (gid) => {
+    navigate('/group/' + gid)
+  }
+
+  useEffect(() => {
+    onAuthStateChanged(auth, async (currentUser) => {
+      setUid(currentUser.uid)
+      setEmail(currentUser.email)
+      const res = await axios.get(`${getUsername}${currentUser.uid}`)
+      setUsername(res.data)
+      const fetchGroups = async () => {
+        const url = `${userGroup}${uid}`
+        console.log(url)
+        const res = await axios.get(`${userGroup}${currentUser.uid}`)
+        setGroups(res.data)
+      }
+      fetchGroups()
+    })
+
+  }, [])
+
+  // useEffect(() => {
+
+  // }, [])
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    axios.get(`${getAllGroups}${search}`)
+      .then((groups) => {
+        setAllGroups(groups.data)
+        console.log(groups.data, " test test")
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+
+  const notify = (msg) => toast.success(msg, {
+    theme: "light"
+  });
+
+  const handleGroup = async () => {
+    const res = await axios.post(createGroup, {
+      uid: uid,
+      name: gname,
+      bio: gdesc,
+      topic: gtopic
+    })
+
+    notify(res.data.message)
+    setOpen(!open)
+  }
+
+  const handleJoin = (id) => {
+    axios.post(addGroupMember, {
+      uid: uid,
+      gid: id
+    }).then(data => {
+      console.log(data)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
+
+  const group = {
+    _id: "jaimatadi",
+    name: "Test Group",
+    bio: "This is a test group",
+    members: ["test", "test", "test"]
+  }
+
   return (
     <>
-    <section className='w-full h-[88vh] flex justify-center py-1 items-center'>
-      <div className='w-full h-full bg-white basis-1/3 m-3 rounded-lg'></div>
-      <div className='w-full h-full basis-2/3'></div>
-    </section>
+      {/* <Navbar /> */}
+      <ToastContainer />
+      <div className={`h-full w-full flex justify-center items-center fixed top-0 z-40 bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 transition-all ease-in duration-500 ${open ? "" : "hidden"}`}>
+        <div className='w-[25rem] h-max py-6 relative bg-white rounded-lg flex flex-col justify-center items-center shadow-2xl'>
+          <CloseIcon onClick={() => { setOpen(!open) }} className='absolute top-4 right-4' />
+          <div className='font-bold text-2xl'>Create Group</div>
+          <div className='w-[100%] h-max px-4 my-4'><input onChange={(e) => { setGname(e.target.value) }} className='w-full outline-none border-2 border-[#b2a4ff] rounded-lg p-2' type="text" placeholder='name of the group...' name="" id="" /></div>
+          <div className='w-[100%] h-max px-4 my-4'>
+            <input onChange={(e) => { setGdesc(e.target.value) }} className='w-full outline-none border-2 border-[#b2a4ff] rounded-lg p-2' type="text" placeholder='description...' name="" id="" maxLength="120" />
+            <div className='text-xs font-bold'>*not more than 120 characters</div>
+          </div>
+          <div className='w-[100%] h-max px-4 my-4'>
+            <input onChange={(e) => { setGtopic(e.target.value) }} className='w-full outline-none border-2 border-[#b2a4ff] rounded-lg p-2' type="text" placeholder='topics' name="" id="" />
+            <div className='text-xs font-bold'>*maximum 3</div>
+          </div>
+          <button onClick={handleGroup} className='py-2 px-2 text-lg bg-gradient-to-r from-violet-300 to-violet-500 text-white rounded-lg'>create</button>
+        </div>
+      </div>
+
+
+      <section className='w-full mt-[10.5rem] md:mt-20 h-[88vh] hidden md:flex justify-center py-1 items-center'>
+        <div className='w-full h-full bg-white basis-1/3 m-3 py-5 px-3 rounded-lg flex flex-col justify-start items-center'>
+
+
+          <div className='w-full h-full flex flex-col justify-start items-center  overflow-scroll no-scrollbar'>
+            <div className='font-bold text-2xl text-[#b2a4ff]'>My groups</div>
+            {groups?.map(group => {
+              console.log(group._id)
+              return (<div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}><GroupCard groupname={group.name} no={group.members.length} desc={group.bio} /></div>)
+            })}
+
+
+
+            {groups ? (<div></div>) : (
+              <div>login to view</div>
+            )}
+            <MoreHorizIcon />
+
+          </div>
+        </div>
+
+
+
+        <div className='w-full h-[88vh] px-20 basis-2/3 flex flex-col justify-start items-center overflow-scroll no-scrollbar'>
+
+          <div className="search w-full h-full bg-white rounded-lg my-1 py-5 px-3 flex flex-col justify-start items-center overflow-scroll no-scrollbar">
+            <form className='w-[16rem] ml-5 rounded-lg h-8 flex justify-center items-center bg-[#e5e7eb]'>
+              <input type="text" required={true} placeholder='search groups...' onChange={(e) => { setSearch(e.target.value) }} className='bg-transparent outline-none w-[70%]' />
+              <button type='submit' onClick={handleSearch}><SearchIcon /></button>
+            </form>
+            {
+              allGroups?.map(group => {
+                return (<div className='w-full  border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-2 flex justify-center items-center'>
+                  <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
+                  <button onClick={() => { handleJoin(group._id) }} className='bg-[#b2a4ff] rounded-lg py-2 px-4'>Join</button>
+                </div>)
+              })
+            }
+
+
+
+            {allGroups ? (<div></div>) : (
+              <div>search groups</div>
+            )}
+
+
+          </div>
+
+        </div>
+
+
+
+        {uid ? (<button onClick={() => { setOpen(!open) }} className='fixed bottom-10 right-10 border-2 rounded-lg py-3 px-2 border-[#b2a4ff] bg-[#b2a4ff] hover:bg-[#897ec5] transition-all ease-in duration-200'>Create Group <AddCircleOutlineIcon /></button>) : ""}
+
+      </section>
+
+
+
+
+      <section className='flex flex-col md:hidden w-[100%] mt-[10.5rem] md:mt-20 h-max justify-start py-1 items-center overflow-scroll noscrollbar'>
+        <div className='w-full h-[max] px-20 flex flex-col justify-center items-center'>
+
+          <div className="search w-full h-full bg-white rounded-lg my-1 py-5 px-3 flex flex-col justify-center items-center">
+            <form className='w-[10rem] md:w-[16rem] rounded-lg h-8 flex justify-center items-center bg-[#e5e7eb]'>
+              <input type="text" required={true} placeholder='search groups...' onChange={(e) => { setSearch(e.target.value) }} className='bg-transparent outline-none w-[70%]' />
+              <button type='submit' onClick={handleSearch}><SearchIcon /></button>
+            </form>
+            {
+              allGroups?.map(group => {
+                return (<div className='w-full  border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-2 flex justify-center items-center'>
+                  <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
+                  <button onClick={() => { handleJoin(group._id) }} className='bg-[#b2a4ff] rounded-lg py-2 px-4'>Join</button>
+                </div>)
+              })
+            }
+            {allGroups ? (<div></div>) : (
+              <div>search groups</div>
+            )}
+          </div>
+
+        </div>
+
+        <div className='w-full h-full m-3 py-5 px-8 rounded-lg flex flex-col justify-start items-center'>
+
+
+          <div className='w-full h-full flex flex-col justify-start items-center  overflow-scroll no-scrollbar'>
+            <div className='font-bold text-2xl text-[#b2a4ff]'>My groups</div>
+            {groups?.map(group => {
+              console.log(group._id)
+              return (<div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}><GroupCard groupname={group.name} no={group.members.length} desc={group.bio} /></div>)
+            })}
+
+
+
+            {groups ? (<div></div>) : (
+              <div>login to view</div>
+            )}
+            <MoreHorizIcon />
+
+          </div>
+        </div>
+
+
+      </section>
     </>
   )
 }
