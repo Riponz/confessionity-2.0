@@ -19,32 +19,19 @@ function TopicCard({ topics }) {
   }
   console.log(toggle, " toggle")
   return (
-    <div className='w-full p-5 h-full flex justify-center items-center flex-wrap overflow-hidden no-scrollbar'>
-<div className='text-xl font-bold'>Topics</div>
+    <div className='w-full h-full flex justify-center items-start flex-wrap overflow-y-scroll '>
+      <div className='text-xl font-bold'>Topics</div>
 
-      <ToggleButtonGroup className='w-full p-5 h-full flex justify-center items-between flex-wrap' onChange={handleToggle} value={toggle} size="small" >
+      <ToggleButtonGroup className='w-full p-3 h-full flex justify-center items-between flex-wrap' onChange={handleToggle} value={toggle} size="small" >
         {
           topics?.map(topic => {
-            return (<ToggleButton style={{ borderRadius: "none", outlineColor: '#b2a4ff', outlineWidth: '1px', outlineStyle: 'solid', margin: '2px'}} value={topic}>{topic}</ToggleButton>)
+            return (<ToggleButton style={{ borderRadius: "none", outlineColor: '#b2a4ff', outlineWidth: '1px', outlineStyle: 'solid', margin: '2px' }} value={topic}>{topic}</ToggleButton>)
           })
         }
 
       </ToggleButtonGroup>
 
 
-      {/* <Tags tag='depression' />
-      <Tags tag='shahrukh' />
-      <Tags tag='blues' />
-      <Tags tag='pocoloco' />
-      <Tags tag='hello world' />
-      <Tags tag='locopilot' />
-      <Tags tag='helo' />
-      <Tags tag='depression' />
-      <Tags tag='shahrukh' />
-      <Tags tag='blues' />
-      <Tags tag='pocoloco' />
-      <Tags tag='hello world' />
-      <Tags tag='locopilot' /> */}
     </div>
   )
 }

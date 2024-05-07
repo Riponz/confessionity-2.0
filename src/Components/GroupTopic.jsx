@@ -22,13 +22,29 @@ function GroupTopic() {
   return (
     <div className='flex flex-col justify-start items-center w-full h-full overflow-scroll no-scrollbar'>
       <div className='text-xl font-bold'>My groups</div>
-      {groups?.map(group => {
+      {/* {groups?.map(group => {
         return (
           <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
             <GroupCard gid={group._id} groupname={group.name} no={group.members.length} desc={group.bio} />
           </div>
         )
-      })}
+      })} */}
+
+      {
+        groups ? (
+          groups?.map(group => {
+            return (
+              <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
+                <GroupCard gid={group._id} groupname={group.name} no={group.members.length} desc={group.bio} />
+              </div>
+            )
+          })
+        ) : (
+          <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
+            <GroupCard />
+          </div>
+        )
+      }
       <MoreHorizIcon />
     </div>
   )
