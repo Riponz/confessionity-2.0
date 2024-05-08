@@ -14,7 +14,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebaseConfig';
 import GroupSearch from '../Components/GroupPage';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function Groups() {
   const str = "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Praesentium laudantium iure eum reiciendis eius dicta voluptatum officiis suscipit, nobis maiores libero quasi. Iste facere provident eligendi deleniti quod exercitationem quas in sapiente saepe et vero ullam officiis praesentium, vel dolores, laborum odio architecto doloremque autem sint fuga optio ipsa. Ipsam."
@@ -30,6 +30,7 @@ function Groups() {
   const { uid, username, groups, setGroups, setUid, setEmail, setUsername, email } = useContext(userContext);
 
   const navigate = useNavigate()
+  const location = useLocation()
 
   const handleSpecificGroup = (gid) => {
     navigate('/group/' + gid)
@@ -49,7 +50,7 @@ function Groups() {
       fetchGroups()
     })
 
-  }, [])
+  }, [location])
 
   // useEffect(() => {
 
@@ -128,11 +129,6 @@ function Groups() {
 
           <div className='w-full h-full flex flex-col justify-start items-center  overflow-scroll no-scrollbar'>
             <div className='font-bold text-2xl text-[#b2a4ff]'>My groups</div>
-            {groups?.map(group => {
-              return (<div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
-                <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
-              </div>)
-            })}
 
             {
               groups ?
@@ -180,7 +176,7 @@ function Groups() {
             {
               loading ? (<div className='w-full  border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-2 flex justify-center items-center'>
                 <GroupCard />
-                <button onClick={() => { handleJoin(group._id) }} className='bg-[#b2a4ff] rounded-lg py-2 px-4'>Join</button>
+                <button className='bg-[#b2a4ff] rounded-lg py-2 px-4'>Join</button>
               </div>) : (
                 (allGroups != 0) ? (allGroups?.map(group => {
                   return (<div className='w-full  border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-2 flex justify-center items-center'>
@@ -212,9 +208,9 @@ function Groups() {
       {/* //mobile section */}
 
       <section className='flex flex-col md:hidden w-full mt-[13rem] md:mt-20 h-full justify-start py-1 items-start overflow-scroll no-scrollbar'>
-        <div className='w-full h-[max] px-20 flex flex-col justify-center items-center'>
+        <div className='w-full h-max px-20 flex flex-col justify-center items-center'>
 
-          <div className="search w-full h-full bg-white rounded-lg my-1 py-5 px-3 flex flex-col justify-center items-center">
+          <div className="search w-full h-max bg-white rounded-lg my-1 py-5 px-3 flex flex-col justify-center items-center overflow-scroll no-scrollbar">
             <form className='w-[10rem] md:w-[16rem] rounded-lg h-8 flex justify-center items-center bg-[#e5e7eb]'>
               <input type="text" required={true} placeholder='search groups...' onChange={(e) => { setSearch(e.target.value) }} className='bg-transparent outline-none w-[70%]' />
               <button type='submit' onClick={handleSearch}><SearchIcon /></button>
@@ -234,11 +230,11 @@ function Groups() {
 
         </div>
 
-        <div className='w-full h-full m-3 py-5 px-8 rounded-lg flex flex-col justify-start items-center'>
+        <div className='w-full h-max py-5 px-8 rounded-lg flex flex-col justify-start items-center overflow-scroll no-scrollbar'>
 
 
-          <div className='w-full h-full flex flex-col justify-start items-center  overflow-scroll no-scrollbar'>
-            <div className='font-bold text-2xl text-[#b2a4ff]'>My groups</div>
+          <div className='w-full h-[40rem] flex flex-col justify-start items-center overflow-scroll no-scrollbar'>
+            <div className='font-bold h-max text-2xl text-[#b2a4ff]'>My groups</div>
             {
               groups ? (
                 groups?.map(group => {
@@ -249,7 +245,7 @@ function Groups() {
                   )
                 })
               ) : (
-                <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
+                <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' >
                   <GroupCard />
                 </div>
               )
