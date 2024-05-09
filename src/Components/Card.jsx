@@ -20,36 +20,44 @@ function Card({ username, content, time, comnts, id, delbtn }) {
         <div className='font-bold sm:font-bold text-base sm:text-base lg:text-xl w-full'>{username ? username : <Skeleton height={40} />}</div>
         <div className='text-sm text-slate-600'>{time ? formattedDate : <div className='h-4'></div>}</div>
         <div className='mt-1 w-full'><p >{content ? content : <Skeleton count={3} />}</p></div>
-        <ShowComments>
-          <div className='pt-4 p-2 w-full'>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-              >
-                <span className='text-[#b2a4ff] font-bold text-lg'>comments</span>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div className="comments overflow-y-scroll p-4 text-justify w-full h-max max-h-[16rem]">
-                  <CommentPost pid={id} />
-                  {
-                    comnts?.length == 0 ? (<div className='w-full h-full flex justify-center items-center text-black text-xl font-bold my-4'>no comments yet</div>) : (comnts?.slice(0).reverse().map(comment => {
-                      return (
-                        <div className='w-full h-max p-5 rounded-lg shadow-xl my-2'>
-                          {comment}
-                        </div>
-                      )
-                    }))
-                  }
+
+        {
+          username ? (
+            <ShowComments>
+              <div className='pt-4 p-2 w-full'>
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1-content"
+                    id="panel1-header"
+                  >
+                    <span className='text-[#b2a4ff] font-bold text-lg'>comments</span>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <div className="comments overflow-y-scroll p-4 text-justify w-full h-max max-h-[16rem]">
+                      <CommentPost pid={id} />
+                      {
+                        comnts?.length == 0 ? (<div className='w-full h-full flex justify-center items-center text-black text-xl font-bold my-4'>no comments yet</div>) : (comnts?.slice(0).reverse().map(comment => {
+                          return (
+                            <div className='w-full h-max p-5 rounded-lg shadow-xl my-2'>
+                              {comment}
+                            </div>
+                          )
+                        }))
+                      }
 
 
 
-                </div>
-              </AccordionDetails>
-            </Accordion>
-          </div>
-        </ShowComments>
+                    </div>
+                  </AccordionDetails>
+                </Accordion>
+              </div>
+            </ShowComments>
+          ) : (<div className='w-full'><Skeleton height={30} /></div>)
+        }
+
+
+
 
       </div>
     </>
