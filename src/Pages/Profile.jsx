@@ -9,6 +9,7 @@ import { userContext } from '../App'
 import { onAuthStateChanged, signOut } from 'firebase/auth'
 import { auth } from '../../firebaseConfig'
 import { useNavigate } from 'react-router-dom';
+import LaunchIcon from '@mui/icons-material/Launch';
 
 function Profile() {
 
@@ -73,6 +74,10 @@ function Profile() {
     navigate('/login');
   };
 
+  const handlePost = () => {
+    navigate("/")
+  }
+
   return (
     <>
       {/* <Navbar /> */}
@@ -109,21 +114,30 @@ function Profile() {
 
             {uid ? (
 
-              posts ? (posts?.slice(0).reverse().map((post) => {
-                return (
-                  <div className='w-full bg-white border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-2 flex flex-col sm:flex-row justify-center items-center'>
-                    <Card key={post._id} username={post.username} content={post.content} time={post.date} id={post._id} />
-                    <button onClick={() => { handleDelete(post._id) }} className='bg-red-500 rounded-lg py-2 px-4'>Delete</button>
-                  </div>
+              posts ? ((posts.length == 0) ? (
+                <div className='w-full h-full flex flex-col justify-center items-center'>
+                  <div className='text-lg font-bold'>You haven't posted anything...</div>
+                  <div onClick={handlePost} className='text-base font-medium text-[#8d79ff] cursor-pointer'>create yout first post <LaunchIcon /></div>
+                </div>
+              ) : (
+                posts?.slice(0).reverse().map((post) => {
+                  return (
+                    <div className='w-full bg-white border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-2 flex flex-col sm:flex-row justify-center items-center'>
+                      <Card key={post._id} username={post.username} content={post.content} time={post.date} id={post._id} />
+                      <button onClick={() => { handleDelete(post._id) }} className='bg-red-500 rounded-lg py-2 px-4'>Delete</button>
+                    </div>
+                  )
+                })))
+
+
+                : (
+                  <>
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                  </>
                 )
-              })) : (
-                <>
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                </>
-              )
 
 
             ) : (<div className='font-bold text-2xl w-full h-full flex justify-center items-center'>Please login!</div>)

@@ -130,7 +130,7 @@ function Groups() {
           <div className='w-full h-full flex flex-col justify-start items-center  overflow-scroll no-scrollbar'>
             <div className='font-bold text-2xl text-[#b2a4ff]'>My groups</div>
 
-            {
+            {/* {
               groups ?
                 (
                   groups?.map(group => {
@@ -143,13 +143,27 @@ function Groups() {
                     <GroupCard />
                   </div>
                 )
+            } */}
+
+            {
+              uid? (
+                groups ?
+                (
+                  groups?.map(group => {
+                    return (<div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
+                      <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
+                    </div>)
+                  })
+                ) : (
+                  <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
+                    <GroupCard />
+                  </div>
+                )
+              ):(
+              <div className='w-full h-full text-xl font-bold flex justify-center items-center'>login to view...</div>
+            )
             }
 
-
-
-            {/* {groups.length == 0 ? (<div></div>) : (
-              <div>login to view</div>
-            )} */}
             <MoreHorizIcon />
 
           </div>
@@ -164,14 +178,6 @@ function Groups() {
               <input type="text" required={true} placeholder='search groups...' onChange={(e) => { setSearch(e.target.value) }} className='bg-transparent outline-none w-[70%]' />
               <button type='submit' onClick={handleSearch}><SearchIcon /></button>
             </form>
-            {/* {
-              allGroups?.map(group => {
-                return (<div className='w-full  border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-2 flex justify-center items-center'>
-                  <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
-                  <button onClick={() => { handleJoin(group._id) }} className='bg-[#b2a4ff] rounded-lg py-2 px-4'>Join</button>
-                </div>)
-              })
-            } */}
 
             {
               loading ? (<div className='w-full  border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-2 flex justify-center items-center'>
