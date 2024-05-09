@@ -82,8 +82,8 @@ function Profile() {
     <>
       {/* <Navbar /> */}
       <ToastContainer />
-      <section className='w-full h-[88vh] mt-20  py-1 flex flex-col md:flex-row justify-start items-center'>
-        <div className='w-[90%] md:w-full rounded-lg p-4 h-full flex flex-col justify-evenly items-center bg-white m-3 basis-1/3 '>
+      <section className='w-full h-[88vh] mt-20  py-1 flex flex-col lg:flex-row justify-start items-center'>
+        <div className='w-[90%] lg:w-full rounded-lg p-4 h-full flex flex-col justify-evenly items-center bg-white m-3 basis-1/3 '>
 
           {uid ? (<div className='w-full h-full basis-2/3 flex flex-col justify-evenly items-center'>
             <div className="info w-full py-4 flex justify-evenly items-center">

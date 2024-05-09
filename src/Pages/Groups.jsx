@@ -123,7 +123,7 @@ function Groups() {
       </div>
 
 
-      <section className='w-full mt-[10.5rem] md:mt-20 h-[88vh] hidden md:flex justify-center py-1 items-center'>
+      <section className='w-full mt-[10.5rem] lg:mt-20 h-[88vh] hidden lg:flex justify-center py-1 items-center'>
         <div className='w-full h-full bg-white basis-1/3 m-3 py-5 px-3 rounded-lg flex flex-col justify-start items-center'>
 
 
@@ -213,7 +213,7 @@ function Groups() {
 
       {/* //mobile section */}
 
-      <section className='flex flex-col md:hidden w-full mt-[13rem] md:mt-20 h-full justify-start py-1 items-start overflow-scroll no-scrollbar'>
+      <section className='flex flex-col lg:hidden w-full mt-[13rem] lg:mt-20 h-full justify-start py-1 items-start overflow-scroll no-scrollbar'>
         <div className='w-full h-max px-20 flex flex-col justify-center items-center'>
 
           <div className="search w-full h-max bg-white rounded-lg my-1 py-5 px-3 flex flex-col justify-center items-center overflow-scroll no-scrollbar">
