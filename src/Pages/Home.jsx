@@ -104,8 +104,11 @@ function Home() {
 
                     {
                         posts ? (filteredPosts?.slice(0).reverse().map((post) => {
-                            return (<div className='w-full'>
-                                <Card key={post._id} delbtn={false} username={post.username} content={post.content} time={post.date} id={post._id} />
+                            return (
+                            
+                              
+                              <div className='w-full'>
+                                <Card key={post._id} comnts={post.comments} delbtn={false} username={post.username} content={post.content} time={post.date} id={post._id} />
                             </div>
                             )
                         })) : (
