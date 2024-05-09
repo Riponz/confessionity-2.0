@@ -127,7 +127,7 @@ function Groups() {
         <div className='w-full h-full bg-white basis-1/3 m-3 py-5 px-3 rounded-lg flex flex-col justify-start items-center'>
 
 
-          <div className='w-full h-full flex flex-col justify-start items-center  overflow-scroll no-scrollbar'>
+          <div className='w-full h-full flex flex-col px-4 justify-start items-center  overflow-scroll no-scrollbar'>
             <div className='font-bold text-2xl text-[#b2a4ff]'>My groups</div>
 
             {/* {
@@ -150,7 +150,7 @@ function Groups() {
                 groups ?
                 (
                   groups?.map(group => {
-                    return (<div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
+                    return (<div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-xl rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
                       <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
                     </div>)
                   })
