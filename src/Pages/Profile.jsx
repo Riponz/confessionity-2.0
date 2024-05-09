@@ -117,7 +117,7 @@ function Profile() {
               posts ? ((posts.length == 0) ? (
                 <div className='w-full h-full flex flex-col justify-center items-center'>
                   <div className='text-lg font-bold'>You haven't posted anything...</div>
-                  <div onClick={handlePost} className='text-base font-medium text-[#8d79ff] cursor-pointer'>create yout first post <LaunchIcon /></div>
+                  <div onClick={handlePost} className='text-base font-medium text-[#8d79ff] cursor-pointer underline'>create yout first post <LaunchIcon /></div>
                 </div>
               ) : (
                 posts?.slice(0).reverse().map((post) => {
