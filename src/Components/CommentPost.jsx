@@ -30,7 +30,7 @@ function CommentPost({ pid }) {
     return (
         <>
             <form className={`w-full h-max p-4 justify-evenly items-center shadow-lg ${uid ? "flex" : "hidden"}`}>
-                <input value={comm} onChange={(e) => { setComm(e.target.value) }} className='w-[80%] p-2 outline-none' type="text" placeholder='type your comment...' />
+                <input value={comm} required onChange={(e) => { setComm(e.target.value) }} className='w-[80%] p-2 outline-none' type="text" placeholder='type your comment...' />
                 <button type='submit' onClick={handleComment}>
                     <AddCommentIcon />
                 </button>
