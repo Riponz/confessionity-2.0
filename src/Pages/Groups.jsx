@@ -146,22 +146,22 @@ function Groups() {
             } */}
 
             {
-              uid? (
+              uid ? (
                 groups ?
-                (
-                  groups?.map(group => {
-                    return (<div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-xl rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
-                      <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
-                    </div>)
-                  })
-                ) : (
-                  <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
-                    <GroupCard />
-                  </div>
-                )
-              ):(
-              <div className='w-full h-full text-xl font-bold flex justify-center items-center'>login to view...</div>
-            )
+                  (
+                    groups?.map(group => {
+                      return (<div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-xl rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
+                        <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
+                      </div>)
+                    })
+                  ) : (
+                    <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
+                      <GroupCard />
+                    </div>
+                  )
+              ) : (
+                <div className='w-full h-full text-xl font-bold flex justify-center items-center'>login to view...</div>
+              )
             }
 
             <MoreHorizIcon />
@@ -189,7 +189,7 @@ function Groups() {
                     <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
                     <button onClick={() => { handleJoin(group._id) }} className='bg-[#b2a4ff] rounded-lg py-2 px-4'>Join</button>
                   </div>)
-                })) : (<div className='w-max h-max flex justify-center items-center text-xl p-4 font-bold'>no groups found</div>)
+                })) : (<div className='w-max h-max flex justify-center items-center text-xl p-4 font-bold'>no groups found...</div>)
               )
             }
 
@@ -213,15 +213,15 @@ function Groups() {
 
       {/* //mobile section */}
 
-      <section className='flex flex-col lg:hidden w-full mt-[13rem] lg:mt-20 h-full justify-start py-1 items-start overflow-scroll no-scrollbar'>
-        <div className='w-full h-max px-20 flex flex-col justify-center items-center'>
+      <section className='flex flex-col lg:hidden w-full mt-[13rem] md:mt-[11rem] lg:mt-20 h-full justify-start py-1 items-center overflow-scroll no-scrollbar'>
+        <div className='w-[95%] h-max flex flex-col justify-center items-center'>
 
-          <div className="search w-full h-max bg-white rounded-lg my-1 py-5 px-3 flex flex-col justify-center items-center overflow-scroll no-scrollbar">
-            <form className='w-[10rem] md:w-[16rem] rounded-lg h-8 flex justify-center items-center bg-[#e5e7eb]'>
-              <input type="text" required={true} placeholder='search groups...' onChange={(e) => { setSearch(e.target.value) }} className='bg-transparent outline-none w-[70%]' />
+          <div className="search w-full h-max bg-white rounded-lg my-1 py-5 pt-8 px-3 flex flex-col justify-center items-center overflow-scroll no-scrollbar">
+            <form className='w-[90%] md:w-[90%] p-5 rounded-lg h-8 flex justify-center items-center bg-[#e5e7eb]'>
+              <input type="text" required={true} placeholder='search groups...' onChange={(e) => { setSearch(e.target.value) }} className='bg-transparent p-5 outline-none w-full' />
               <button type='submit' onClick={handleSearch}><SearchIcon /></button>
             </form>
-            {
+            {/* {
               allGroups?.map(group => {
                 return (<div className='w-full  border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-2 flex justify-center items-center'>
                   <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
@@ -231,12 +231,35 @@ function Groups() {
             }
             {allGroups ? (<div></div>) : (
               <div>search groups</div>
+            )} */}
+
+
+            {
+              loading ? (<div className='w-full  border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-2 flex justify-center items-center'>
+                <GroupCard />
+                <button className='bg-[#b2a4ff] rounded-lg py-2 px-4'>Join</button>
+              </div>) : (
+                (allGroups != 0) ? (allGroups?.map(group => {
+                  return (<div className='w-full  border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-2 flex justify-center items-center'>
+                    <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
+                    <button onClick={() => { handleJoin(group._id) }} className='bg-[#b2a4ff] rounded-lg py-2 px-4'>Join</button>
+                  </div>)
+                })) : (<div className='w-max h-max flex justify-center items-center text-xl p-4 font-bold'>no groups found...</div>)
+              )
+            }
+
+
+
+            {allGroups ? (<div></div>) : (
+              <div className='w-full h-full mt-4 flex justify-center items-center text-2xl font-bold'>search groups...</div>
             )}
+
+
           </div>
 
         </div>
 
-        <div className='w-full h-max py-5 px-8 rounded-lg flex flex-col justify-start items-center overflow-scroll no-scrollbar'>
+        <div className='w-[95%] h-max py-5 rounded-lg flex flex-col justify-start items-center overflow-scroll no-scrollbar'>
 
 
           <div className='w-full h-[40rem] flex flex-col justify-start items-center overflow-scroll no-scrollbar'>

@@ -33,11 +33,11 @@ function GroupPost({ gid, username }) {
     return (
         <>
             <ToastContainer />
-            <section className='w-full rounded-lg my-1 flex justify-evenly items-center bg-white py-6'>
+            <section className='w-full rounded-lg my-1 flex flex-col justify-evenly items-center bg-white py-6'>
                 {console.log(username)}
-                <textarea onChange={(e) => { setContent(e.target.value) }} name="" id="" className='bg-[#e5e7eb] outline-none rounded-xl w-[80%] p-4 mb-3' placeholder='your content goes here...' rows={5} />
+                <textarea onChange={(e) => { setContent(e.target.value) }} name="" id="" className='bg-[#e5e7eb] outline-none rounded-lg w-[90%] p-4 mb-3' placeholder='your content goes here...' rows={5} />
                 {/* <input type="text" className='bg-blue-300 w-[80%]' placeholder='type your content...' /> */}
-                <div className='cursor-pointer m-4' onClick={handleSend}>
+                <div className='cursor-pointer m-2 py-3 px-2 w-[90%] flex justify-center items-center bg-gradient-to-r from-violet-200 to-indigo-100 rounded-lg' onClick={handleSend}>
                     <SendIcon />
                 </div>
             </section>

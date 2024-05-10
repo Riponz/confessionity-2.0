@@ -83,14 +83,14 @@ function Profile() {
       {/* <Navbar /> */}
       <ToastContainer />
       <section className='w-full h-[88vh] mt-20  py-1 flex flex-col lg:flex-row justify-start items-center'>
-        <div className='w-[90%] lg:w-full rounded-lg p-4 h-full flex flex-col justify-evenly items-center bg-white m-3 basis-1/3 '>
+        <div className='w-[95%] rounded-lg p-4 h-full flex flex-col justify-evenly items-center bg-white my-1 basis-1/3 '>
 
           {uid ? (<div className='w-full h-full basis-2/3 flex flex-col justify-evenly items-center'>
             <div className="info w-full py-4 flex justify-evenly items-center">
-              <div className='font-bold text-black text-base sm:font-semibold lg:font-bold sm:text-base lg:text-2xl'>{username}</div>
+              <div className='font-bold text-black text-base sm:font-bold lg:font-bold sm:text-base lg:text-2xl'>{username}</div>
             </div>
 
-            <div className="email text-base font-bold sm:text-lg py-4 sm:font-semibold lg:text-xl lg:font-bold">{email}</div>
+            <div className="email text-base font-bold sm:text-lg py-4 sm:font-bold lg:text-xl lg:font-bold">{email}</div>
           </div>) : ""}
 
           <div className='flex lg:hidden justify-center items-center'>
@@ -105,11 +105,11 @@ function Profile() {
             </div>
           </div>
 
-          <div className='text-lg sm:text-lg lg:text-xl font-bold lg:font-bold basis-1/3 flex flex-col py-4 sm:flex-row md:flex-col xl:flex-row justify-center items-center'> <div>Your Anonymity,</div><div>Our <span className='text-[#B2A4FF]'>&nbsp;Responsibility</span></div></div>
+          <div className='text-lg sm:text-lg lg:text-xl font-bold lg:font-bold basis-1/3 flex flex-col py-4 sm:flex-row md:flex-col xl:flex-row justify-center items-center'> <div>Your Anonymity,</div><div>&nbsp;Our <span className='text-[#B2A4FF]'>&nbsp;Responsibility</span></div></div>
 
 
         </div>
-        <div className='userpost w-full h-[87vh] px-8 sm:px-20 basis-2/3'>
+        <div className='userpost w-[95%]  h-[87vh] lg:px-20 basis-2/3'>
           <div className='w-full h-full py-5 rounded-lg overflow-scroll no-scrollbar'>
 
             {uid ? (
@@ -122,9 +122,9 @@ function Profile() {
               ) : (
                 posts?.slice(0).reverse().map((post) => {
                   return (
-                    <div className='w-full bg-white border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-2 flex flex-col sm:flex-row justify-center items-center'>
+                    <div className='w-full bg-white border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-3 flex flex-col md:flex-row justify-center items-center'>
                       <Card key={post._id} username={post.username} content={post.content} time={post.date} id={post._id} />
-                      <button onClick={() => { handleDelete(post._id) }} className='bg-red-500 rounded-lg py-2 px-4'>Delete</button>
+                      <button onClick={() => { handleDelete(post._id) }} className='bg-red-500 rounded-lg py-2 px-4 w-[95%] md:w-max'>Delete</button>
                     </div>
                   )
                 })))

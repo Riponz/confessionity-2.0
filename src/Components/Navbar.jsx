@@ -35,11 +35,15 @@ function Navbar() {
     navigate('/login');
   };
 
+  const handleHome = () => {
+    navigate("/")
+  }
+
 
   return (
     <>
       <div className='w-full z-[10] font-semibold text-lg fixed top-0 display h-[max] py-4 px-10 sm:px-20 flex flex-row justify-between items-center bg-[#B2A4FF]'>
-        <div className='w-max flex justify-evenly items-center'>
+        <div onClick={handleHome} className='w-max flex justify-evenly items-center'>
           <img className='w-[43px] mx-3' src={logo} alt="confessionity logo" />
           <div className='text-xl font-bold hidden lg:flex'>confessionity</div>
           {/* <form className='w-[16rem] ml-5 rounded-lg h-8 flex justify-center items-center bg-[#e5e7eb]'>

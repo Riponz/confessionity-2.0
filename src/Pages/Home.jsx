@@ -91,7 +91,7 @@ function Home() {
 
     return (
         <>
-            <div className='flex flex-col md:flex-row w-[30rem] sm:w-full justify-center mt-[10rem] md:mt-20 items-center h-[88vh]'>
+            <div className='flex flex-col md:flex-row w-full justify-center mt-[7rem] md:mt-[5rem] lg:mt-20 items-center h-[88vh]'>
 
                 {/* left side */}
                 <div className='hidden lg:flex lg:basis-1/3 flex-col overflow-hidden justify-center items-center h-full mx-1 w-full'>
@@ -99,7 +99,7 @@ function Home() {
                     <div className='basis-2/6 bg-white rounded-lg w-full my-1 h-[40%]  p-5' ><TopicCard topics={topics} /></div>
                 </div>
                 {/* home section */}
-                <div className='lg:basis-2/3 w-[95%] lg:w-full h-full flex flex-col justify-start items-center px-0 sm:px-0 md:px-20 rounded-lg overflow-scroll no-scrollbar'>
+                <div className='lg:basis-2/3 w-[95%] lg:w-full h-full flex flex-col justify-start items-center px-0 lg:px-20 rounded-lg overflow-scroll no-scrollbar'>
                     {uid ? <Post /> : ""}
 
                     {
