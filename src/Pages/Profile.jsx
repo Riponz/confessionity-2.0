@@ -110,7 +110,7 @@ function Profile() {
 
         </div>
         <div className='userpost w-[95%]  h-[87vh] lg:px-20 basis-2/3'>
-          <div className='w-full h-full py-5 rounded-lg overflow-scroll no-scrollbar'>
+          <div className='w-full h-max py-5 rounded-lg overflow-scroll no-scrollbar'>
 
             {uid ? (
 
