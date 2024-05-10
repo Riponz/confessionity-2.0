@@ -92,12 +92,15 @@ function Signup() {
                 const randomName = uniqueNamesGenerator({
                     dictionaries: [adjectives, colors, animals],
                 })
-                await axios.post(adduser, {
+                axios.post(adduser, {
                     email: email,
                     uid: uid,
                     username: randomName
+                }).then(data => {
+                    navigate("/")
+                }).catch(err =>{
+                    notify(err.message)
                 })
-                navigate("/")
 
               })
               .catch((error) => {
