@@ -46,7 +46,7 @@ function Post() {
                 <textarea onChange={(e) => { setContent(e.target.value) }} value={content} spellCheck autoCorrect={true} autoComplete={false} className='bg-[#e5e7eb] outline-none rounded-lg w-[80%] p-4 mb-3' placeholder='your content goes here...' rows={5} />
                 {/* <input type="text" className='bg-blue-300 w-[80%]' placeholder='type your content...' /> */}
                 <div className="tags w-[80%] flex flex-col lg:flex-row justify-evenly items-center">
-                    <input onChange={(e) => { setTopic(e.target.value) }} value={topic} type="text" className='bg-[#e5e7eb] outline-none rounded-lg w-full lg:w-[90%] p-3' placeholder='tags' />
+                    <input onChange={(e) => { setTopic(e.target.value) }} value={topic} type="text" className='bg-[#e5e7eb] outline-none rounded-lg w-full lg:w-[90%] p-3' placeholder='tags ( max 3 tags separated by spaces)' />
                     <div className='cursor-pointer w-full lg:w-max flex justify-center bg-gradient-to-r from-violet-200 to-indigo-100 rounded-lg m-3 lg:m-0 lg:ml-3 p-3 items-center' onClick={handleSend}>
                         <SendIcon />
                     </div>
