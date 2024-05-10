@@ -96,8 +96,11 @@ function Signup() {
                     email: email,
                     uid: uid,
                     username: randomName
+                }).then(data => {
+                    navigate("/")
+                }).catch(err =>{
+                    notify(err.message)
                 })
-                navigate("/")
 
               })
               .catch((error) => {
