@@ -91,7 +91,7 @@ function Home() {
 
     return (
         <>
-            <div className='flex flex-col md:flex-row w-full justify-center mt-[7rem] md:mt-[5rem] lg:mt-20 items-center h-[88vh]'>
+            <div className='flex flex-col md:flex-row w-full justify-center mb-4 lg:mb-0 mt-[7rem] md:mt-[5rem] lg:mt-20 items-center h-[88vh]'>
 
                 {/* left side */}
                 <div className='hidden lg:flex lg:basis-1/3 flex-col overflow-hidden justify-center items-center h-full mx-1 w-full'>
