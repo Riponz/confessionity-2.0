@@ -82,7 +82,7 @@ function Profile() {
     <>
       {/* <Navbar /> */}
       <ToastContainer />
-      <section className='w-full h-[88vh] mb-4 lg:mb-0 mt-20  py-1 flex flex-col lg:flex-row justify-start items-center'>
+      <section className='w-full h-[88vh] mb-4 lg:mb-0 mt-[7rem] md:mt-[5rem] lg:mt-20 py-1 flex flex-col lg:flex-row justify-start items-center'>
         <div className='w-[95%] rounded-lg p-4 h-full flex flex-col justify-evenly items-center bg-white my-1 basis-1/3 '>
 
           {uid ? (<div className='w-full h-full basis-2/3 flex flex-col justify-evenly items-center'>
@@ -109,8 +109,11 @@ function Profile() {
 
 
         </div>
-        <div className='userpost w-[95%]  h-[87vh] lg:px-20 basis-2/3'>
-          <div className='w-full h-max py-5 rounded-lg overflow-scroll no-scrollbar'>
+
+
+
+        <div className='userpost w-[95%] h-[87vh] lg:px-20 basis-2/3 overflow-scroll no-scrollbar'>
+          <div className='w-full h-max pb-5 rounded-lg'>
 
             {uid ? (
 
@@ -122,7 +125,7 @@ function Profile() {
               ) : (
                 posts?.slice(0).reverse().map((post) => {
                   return (
-                    <div className='w-full bg-white border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-3 flex flex-col md:flex-row justify-center items-center'>
+                    <div className='w-full bg-white border-2 border-[#cbc3fa] shadow-lg rounded-lg mb-2 p-3 flex flex-col md:flex-row justify-center items-center'>
                       <Card key={post._id} username={post.username} content={post.content} time={post.date} id={post._id} />
                       <button onClick={() => { handleDelete(post._id) }} className='bg-red-500 rounded-lg py-2 px-4 w-[95%] md:w-max'>Delete</button>
                     </div>
