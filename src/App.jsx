@@ -12,6 +12,7 @@ import axios from 'axios'
 import GroupPage from './Components/GroupPage'
 import ShowNavBar from './Components/ShowNavBar'
 import NotFound from './Components/NotFound'
+import Founder from './Pages/Founder'
 
 export const userContext = createContext()
 
@@ -41,6 +42,7 @@ function App() {
               <Route path='groups' element={<Groups />} />
               <Route path='group/:gid' element={<GroupPage />} />
               <Route path='profile' element={<Profile />} />
+              <Route path='founder' element={<Founder />} />
               <Route path="*" element={<NotFound />} /> 
             </Routes>
           </div>
