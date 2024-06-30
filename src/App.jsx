@@ -39,10 +39,10 @@ function App() {
               <Route path='/' element={<Home />} />
               <Route path='/signup' element={<Signup />} />
               <Route path='/login' element={<Login />} />
+              <Route path='/founder' element={<Founder />} />
               <Route path='groups' element={<Groups />} />
               <Route path='group/:gid' element={<GroupPage />} />
               <Route path='profile' element={<Profile />} />
-              <Route path='founder' element={<Founder />} />
               <Route path="*" element={<NotFound />} /> 
             </Routes>
           </div>
