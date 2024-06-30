@@ -9,7 +9,7 @@ function ShowNavBar({ children }) {
     console.log(location)
 
     useEffect(() => {
-        if (location.pathname === "/login" || location.pathname === "/signup") {
+        if (location.pathname === "/login" || location.pathname === "/signup" || location.pathname === "/founder") {
             setShowNav(false)
         } else {
             setShowNav(true)

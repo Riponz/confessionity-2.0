@@ -3,7 +3,7 @@ import image from './../assets/image.png'
 
 function Founder() {
     return (
-        <div className='w-full h-full mt-[15rem] mb-[8rem] overflow-y-scroll'>
+        <div className='w-full h-full  overflow-y-scroll'>
 
             <div className='w-full h-max p-6 pb-20 flex flex-col justify-start items-start'>
                 <h1 className='text-4xl font-bold mt-1 mb-3'>About The Founder</h1>
