@@ -22,6 +22,7 @@ function Groups() {
   const [gdesc, setGdesc] = useState("")
   const [gtopic, setGtopic] = useState("")
   const [open, setOpen] = useState(false)
+  const [join, setJoin] = useState(false)
   const [allGroups, setAllGroups] = useState()
   const [search, setSearch] = useState("")
   const [loading, setLoading] = useState(false)
@@ -50,7 +51,7 @@ function Groups() {
       fetchGroups()
     })
 
-  }, [location])
+  }, [location, join])
 
   // useEffect(() => {
 
@@ -83,7 +84,7 @@ function Groups() {
       bio: gdesc,
       topic: gtopic
     })
-
+    setJoin(!join)
     notify(res.data.message)
     setOpen(!open)
   }
@@ -94,6 +95,7 @@ function Groups() {
       gid: id
     }).then(data => {
       console.log(data)
+      setJoin(!join)
     }).catch(err => {
       console.log(err)
     })
@@ -149,11 +151,15 @@ function Groups() {
               uid ? (
                 groups ?
                   (
-                    groups?.map(group => {
-                      return (<div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-xl rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
-                        <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
-                      </div>)
-                    })
+                    groups?.length ? (
+                      groups?.map(group => {
+                        return (<div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-xl rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
+                          <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
+                        </div>)
+                      })
+                    ) : (<div className='font-bold text-2xl w-full h-full flex justify-center items-center'>No Joined Groups!</div>)
+
+
                   ) : (
                     <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
                       <GroupCard />
@@ -187,7 +193,13 @@ function Groups() {
                 (allGroups != 0) ? (allGroups?.map(group => {
                   return (<div className='w-full  border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-2 flex justify-center items-center'>
                     <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
-                    <button onClick={() => { handleJoin(group._id) }} className='bg-[#b2a4ff] rounded-lg py-2 px-4'>Join</button>
+                    {console.log(uid," uid")}
+                    {console.log(group.members," members")}
+                    {group?.members?.includes(uid) ? ("") : (
+                      <button onClick={() => { handleJoin(group._id) }} className='bg-[#b2a4ff] rounded-lg py-2 px-4'>Join</button>
+                    )}
+
+
                   </div>)
                 })) : (<div className='w-max h-max flex justify-center items-center text-xl p-4 font-bold'>no groups found...</div>)
               )

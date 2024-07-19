@@ -103,15 +103,18 @@ function Home() {
                     {uid ? <Post /> : ""}
 
                     {
-                        posts ? (filteredPosts?.slice(0).reverse().map((post) => {
-                            return (
-                            
-                              
-                              <div className='w-full'>
-                                <Card key={post._id} comnts={post.comments} delbtn={false} username={post.username} content={post.content} time={post.date} id={post._id} />
-                            </div>
-                            )
-                        })) : (
+                        posts ? (
+                            posts?.length ? (filteredPosts?.slice(0).reverse().map((post) => {
+                                return (
+
+
+                                    <div className='w-full'>
+                                        <Card key={post._id} comnts={post.comments} delbtn={false} username={post.username} content={post.content} time={post.date} id={post._id} />
+                                    </div>
+                                )
+                            })) : (<div className='font-bold text-2xl w-full h-full flex justify-center items-center'>No Posts Yet!</div>)
+
+                        ) : (
                             <>
                                 <Card />
                                 <Card />

@@ -41,13 +41,18 @@ function GroupTopic() {
 
       {
         uid ? (groups ? (
-          groups?.map(group => {
-            return (
-              <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
-                <GroupCard gid={group._id} groupname={group.name} no={group.members.length} desc={group.bio} />
-              </div>
-            )
-          })
+          groups?.length ? (
+            groups?.map(group => {
+              return (
+                <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
+                  <GroupCard gid={group._id} groupname={group.name} no={group.members.length} desc={group.bio} />
+                </div>
+              )
+            })
+          ) : (
+            <div className='font-bold text-2xl w-full h-full flex justify-center items-center'>No Joined Groups!</div>
+          )
+
         ) : (
           <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-xl rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
             <GroupCard />
