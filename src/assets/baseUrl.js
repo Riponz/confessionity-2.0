@@ -1,5 +1,5 @@
-const base = "http://localhost:3000"
-// const base = "https://confessionity-server-2-0.onrender.com"
+// const base = "http://localhost:3000"
+const base = "https://confessionity-server-2-0.onrender.com"
 export const postUrl = `${base}/post/getpost`
 export const addPostUrl = `${base}/post/addpost`
 export const userUrl = `${base}/user/getuser`
