@@ -195,9 +195,10 @@ function Groups() {
                     <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
                     {console.log(uid," uid")}
                     {console.log(group.members," members")}
-                    {group?.members?.includes(uid) ? ("") : (
+                    {uid?(group?.members?.includes(uid) ? ("") : (
                       <button onClick={() => { handleJoin(group._id) }} className='bg-[#b2a4ff] rounded-lg py-2 px-4'>Join</button>
-                    )}
+                    )):("")
+                    }
 
 
                   </div>)
