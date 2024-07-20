@@ -7,9 +7,15 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, provider } from '../../firebaseConfig';
 import { userContext } from '../App';
-import { userUrl } from '../assets/baseUrl';
+import { userUrl, adduser } from '../assets/baseUrl';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import {
+    uniqueNamesGenerator,
+    adjectives,
+    colors,
+    animals,
+} from "unique-names-generator"
 
 
 function Login() {
@@ -52,20 +58,51 @@ function Login() {
 
     const googleLogin = async () => {
         signInWithPopup(auth, provider)
-          .then(async (result) => {
-            const uid = result.user.uid;
-            const res = await axios.get(`${userUrl}?uid=${uid}`)
-                // setUserr(res.data)
-                setUid(res.data.id)
-                setEmail(res.data.email)
-                setUsername(res.data.username)
-                navigate("/")
+            .then((result) => {
+                const uid = result.user.uid;
+                const randomName = uniqueNamesGenerator({
+                    dictionaries: [adjectives, colors, animals],
+                })
+                console.log(randomName)
+                console.log("check")
 
-          })
-          .catch((error) => {
-            notify(error.code.match(pattern)[1])
-          });
-        }
+                // //////////////////////////////////////////////////////////////////
+                axios.get(`${userUrl}?uid=${uid}`)
+                    // console.log(res.data, " res check")
+                    // setUserr(res.data)
+                    .then(data => {
+                        console.log(data, "datatata")
+                        if (data.data.status === "error") {
+                            console.log("equal to error")
+                            // notify(res.data.message);
+                            axios.post(adduser, {
+                                email: result.user.email,
+                                uid: uid,
+                                username: randomName
+                            }).then(data => {
+                                // console.log(data, "da tatatatatatatatatatatatatatatat")
+                                navigate("/")
+                            }).catch(err => {
+                                notify(err.message)
+                            })
+                        } else {
+                            console.log("user found")
+                            console.log(data)
+                            setUid(data.id)
+                            setEmail(data.email)
+                            setUsername(data.username)
+                            navigate("/")
+                        }
+                    })
+
+
+            })
+            .catch((error) => {
+                console.log("error detected")
+                console.log(error)
+                notify(error)
+            });
+    }
 
     return (
         <>
@@ -88,7 +125,7 @@ function Login() {
                     </form>
                     <div className='flex text-center text-sm justify-center items-center'>
                         <HorizontalRuleIcon fontSize='small' />
-                        <div >or via</div>
+                        <div>or signin via</div>
                         <HorizontalRuleIcon fontSize='small' />
                     </div>
                     <div onClick={googleLogin} className="googlesignup my-3 py-1 px-3 hover:bg-[#b2a4ff] cursor-pointer flex justify-center items-center border-2 border-[#B2A4FF] rounded-xl">

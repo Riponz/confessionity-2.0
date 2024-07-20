@@ -42,6 +42,10 @@ function Signup() {
         theme: "light"
     });
 
+    const notifySuccess = (msg) => toast.success(msg, {
+        theme: "light"
+    });
+
     const logout = async () => {
         await signOut(auth);
     };
@@ -71,12 +75,12 @@ function Signup() {
                     username: uname
                 }).then(res => {
                     console.log(res.data)
-                    notify("user created successfully")
+                    notifySuccess("user created successfully")
                 }).catch(err => {
                     notify(err.message)
                 })
                 navigate("/")
-                
+
             })
             .catch(error => {
                 notify(error.code.match(pattern)[1])
@@ -85,27 +89,51 @@ function Signup() {
 
 
     const googleLogin = async () => {
-            signInWithPopup(auth, provider)
-              .then((result) => {
+        signInWithPopup(auth, provider)
+            .then((result) => {
                 const uid = result.user.uid;
-                const email = result.user.email;
                 const randomName = uniqueNamesGenerator({
                     dictionaries: [adjectives, colors, animals],
                 })
-                axios.post(adduser, {
-                    email: email,
-                    uid: uid,
-                    username: randomName
-                }).then(data => {
-                    navigate("/")
-                }).catch(err =>{
-                    notify(err.message)
-                })
+                console.log(randomName)
+                console.log("check")
 
-              })
-              .catch((error) => {
-                notify(error.code.match(pattern)[1])
-              });
+                // //////////////////////////////////////////////////////////////////
+                axios.get(`${userUrl}?uid=${uid}`)
+                    // console.log(res.data, " res check")
+                    // setUserr(res.data)
+                    .then(data => {
+                        console.log(data, "datatata")
+                        if (data.data.status === "error") {
+                            console.log("equal to error")
+                            // notify(res.data.message);
+                            axios.post(adduser, {
+                                email: result.user.email,
+                                uid: uid,
+                                username: randomName
+                            }).then(data => {
+                                // console.log(data, "da tatatatatatatatatatatatatatatat")
+                                navigate("/")
+                            }).catch(err => {
+                                notify(err.message)
+                            })
+                        } else {
+                            console.log("user found")
+                            console.log(data)
+                            setUid(data.id)
+                            setEmail(data.email)
+                            setUsername(data.username)
+                            navigate("/")
+                        }
+                    })
+
+
+            })
+            .catch((error) => {
+                console.log("error detected")
+                console.log(error)
+                notify(error)
+            });
     }
 
     return (
@@ -130,7 +158,7 @@ function Signup() {
                     </form>
                     <div className='flex text-center text-sm justify-center items-center'>
                         <HorizontalRuleIcon fontSize='small' />
-                        <div >or via</div>
+                        <div>or signin via</div>
                         <HorizontalRuleIcon fontSize='small' />
                     </div>
                     <div onClick={googleLogin} className="googlesignup my-3 py-1 px-3 hover:bg-[#b2a4ff] cursor-pointer flex justify-center items-center border-2 border-[#B2A4FF] rounded-xl">
