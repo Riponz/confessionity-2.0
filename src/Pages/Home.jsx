@@ -12,6 +12,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '../../firebaseConfig'
 import { useLocation } from 'react-router-dom'
 import Skeleton from 'react-loading-skeleton'
+import AudioReactRecorder, { RecordState } from 'audio-react-recorder'
 
 
 function Home() {
