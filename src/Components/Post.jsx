@@ -12,29 +12,72 @@ function Post() {
 
     const [content, setContent] = useState('')
     const [topic, setTopic] = useState('')
+    const [isAbusive, setIsAbusive] = useState('')
     const notify = (msg) => toast(msg, {
         theme: "light"
     });
 
+    // const sentiment = async (text) => {
+    //     const data = await axios.post("http://127.0.0.1:5000/sentiment", {
+    //         text: text
+    //     })
+
+
+    //     console.log(data.data)
+
+    //     if (data.data == "Negetive")
+    //         return true
+    //     else
+    //         return false
+    // }
+
+    // const handleSentiment = async () => {
+    //     await axios.post("http://127.0.0.1:5000/sentiment", {
+    //         text: content
+    //     }).then(data => {
+    //         setIsAbusive(data.data)
+    //     })
+
+    //     if (isAbusive == 'Negetive') {
+    //         notify("negetive")
+    //         return
+    //     }
+    //     else {
+    //         notify("not negetive")
+    //     }
+    // }
 
 
     const handleSend = async () => {
-        if(!content){
+        if (!content) {
             notify("write content before you post")
-        }else{
-            const { data } = await axios.post(addPostUrl, {
-                username: username,
-                uid: uid,
-                content: content,
-                topic: topic
-            })
-            setTopic("")
-            setContent("")
-            // console.log(res, " post")
-            setReload(!reload)
-            notify(data.message)
+            return
         }
-        
+        try {
+            const isAbusive = await axios.post("http://127.0.0.1:5000/sentiment", {
+                text: content
+            })
+            console.log(isAbusive.data)
+            if (isAbusive.data !== 'Negative') {
+                const { data } = await axios.post(addPostUrl, {
+                    username: username,
+                    uid: uid,
+                    content: content,
+                    topic: topic
+                })
+                setTopic("")
+                setContent("")
+                // console.log(res, " post")
+                setReload(!reload)
+                notify(data.message)
+            } else {
+                notify("Abusive content!")
+                return;
+            }
+        } catch (e) {
+            console.log(e)
+        }
+
     }
 
 

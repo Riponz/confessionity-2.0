@@ -6,7 +6,7 @@ function ShowComments({ children }) {
     const [showCom, setShowCom] = useState(false)
 
     const location = useLocation()
-    console.log(location.pathname ,"show comments")
+    // console.log(location.pathname ,"show comments")
 
     useEffect(() => {
         if (location.pathname === "/profile" || location.pathname === "/") {

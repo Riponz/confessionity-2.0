@@ -10,7 +10,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
-import { adduser } from './../assets/baseUrl'
+import { adduser, userUrl } from '../assets/baseUrl'
 import { auth, provider } from './../../firebaseConfig'
 import { userContext } from '../App';
 import {
@@ -92,17 +92,14 @@ function Signup() {
         signInWithPopup(auth, provider)
             .then((result) => {
                 const uid = result.user.uid;
-                const randomName = uniqueNamesGenerator({
-                    dictionaries: [adjectives, colors, animals],
-                })
-                console.log(randomName)
                 console.log("check")
+                console.log(userUrl)
 
                 // //////////////////////////////////////////////////////////////////
                 axios.get(`${userUrl}?uid=${uid}`)
-                    // console.log(res.data, " res check")
-                    // setUserr(res.data)
-                    .then(data => {
+                // setUserr(res.data)
+                .then(data => {
+                        console.log(data.data, " res check")
                         console.log(data, "datatata")
                         if (data.data.status === "error") {
                             console.log("equal to error")
@@ -110,7 +107,7 @@ function Signup() {
                             axios.post(adduser, {
                                 email: result.user.email,
                                 uid: uid,
-                                username: randomName
+                                username: uname
                             }).then(data => {
                                 // console.log(data, "da tatatatatatatatatatatatatatatat")
                                 navigate("/")
