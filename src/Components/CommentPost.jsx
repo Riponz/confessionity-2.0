@@ -17,6 +17,10 @@ function CommentPost({ pid }) {
 
     const handleComment = async (e) => {
         e.preventDefault();
+        if(!comm){
+            notify("Please type your comment")
+            return
+        }
         const { data } = await axios.post(addComment, {
             pid: pid,
             comment: comm
