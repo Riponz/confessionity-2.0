@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { addPostUrl } from './../assets/baseUrl'
 import axios from 'axios'
 import { userContext } from '../App';
+import { CircularProgress } from '@mui/material';
 
 function Post() {
 
@@ -12,45 +13,17 @@ function Post() {
 
     const [content, setContent] = useState('')
     const [topic, setTopic] = useState('')
-    const [isAbusive, setIsAbusive] = useState('')
+    const [loading, setloading] = useState(false)
     const notify = (msg) => toast(msg, {
         theme: "light"
     });
 
-    // const sentiment = async (text) => {
-    //     const data = await axios.post("http://127.0.0.1:5000/sentiment", {
-    //         text: text
-    //     })
-
-
-    //     console.log(data.data)
-
-    //     if (data.data == "Negetive")
-    //         return true
-    //     else
-    //         return false
-    // }
-
-    // const handleSentiment = async () => {
-    //     await axios.post("http://127.0.0.1:5000/sentiment", {
-    //         text: content
-    //     }).then(data => {
-    //         setIsAbusive(data.data)
-    //     })
-
-    //     if (isAbusive == 'Negetive') {
-    //         notify("negetive")
-    //         return
-    //     }
-    //     else {
-    //         notify("not negetive")
-    //     }
-    // }
-
 
     const handleSend = async () => {
+        setloading(true);
         if (!content) {
             notify("write content before you post")
+            setloading(false);
             return
         }
         try {
@@ -72,11 +45,13 @@ function Post() {
                 notify(data.message)
             } else {
                 notify("Abusive content!")
+                setloading(false)
                 return;
             }
         } catch (e) {
             console.log(e)
         }
+        setloading(false);
 
     }
 
@@ -91,7 +66,13 @@ function Post() {
                 <div className="tags w-[80%] flex flex-col lg:flex-row justify-evenly items-center">
                     <input onChange={(e) => { setTopic(e.target.value) }} value={topic} type="text" className='bg-[#e5e7eb] outline-none rounded-lg w-full lg:w-[90%] p-3' placeholder='tags ( max 3 tags separated by spaces)' />
                     <div className='cursor-pointer w-full lg:w-max flex justify-center bg-gradient-to-r from-violet-200 to-indigo-100 rounded-lg m-3 lg:m-0 lg:ml-3 p-3 items-center' onClick={handleSend}>
-                        <SendIcon />
+                        {loading ? (
+                            <CircularProgress thickness={6} size={25} sx={{
+                                color: "#7F6FD8"
+                            }} />
+                        ) : (
+                            <SendIcon />
+                        )}
                     </div>
                 </div>
             </section>
