@@ -13,10 +13,10 @@ function GroupCard({ groupname, no, desc, gid }) {
                 <div>
                     <div className="name w-full font-bold text-xl">{groupname || < Skeleton height={40} />}</div>
                     {
-                        no? (<div className="members font-medium text-base">{no} members</div>):(<div className='h-4'></div>)
+                        no ? (<div className="members font-medium text-base">{no} members</div>) : (<div className='h-4'></div>)
                     }
                 </div>
-                <div className="desc">{desc || <Skeleton count={2} />}</div>
+                <div className="desc">{groupname ? (desc) : (<Skeleton count={2} />)}</div>
                 <div className="topics"></div>
             </div>
         </>

@@ -22,7 +22,7 @@ function TopicCard({ topics }) {
     <div className='w-full h-full flex justify-center items-start flex-wrap overflow-y-scroll '>
       <div className='text-xl font-bold'>Topics</div>
 
-      <ToggleButtonGroup className='w-full p-3 h-full flex justify-center items-between flex-wrap' onChange={handleToggle} value={toggle} size="small" >
+      <ToggleButtonGroup className='w-full p-3 flex justify-center items-between flex-wrap' onChange={handleToggle} value={toggle} size="small" >
         {
           topics?.map(topic => {
             return (<ToggleButton style={{ borderRadius: "none", outlineColor: '#b2a4ff', outlineWidth: '1px', outlineStyle: 'solid', margin: '2px' }} value={topic}>{topic}</ToggleButton>)

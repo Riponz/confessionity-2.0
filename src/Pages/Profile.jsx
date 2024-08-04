@@ -10,6 +10,7 @@ import { onAuthStateChanged, signOut } from 'firebase/auth'
 import { auth } from '../../firebaseConfig'
 import { useNavigate } from 'react-router-dom';
 import LaunchIcon from '@mui/icons-material/Launch';
+import imgLogin from './../assets/login.png'
 
 function Profile() {
 
@@ -118,7 +119,7 @@ function Profile() {
             {uid ? (
 
               posts ? ((posts.length == 0) ? (
-                <div className='w-full h-full flex flex-col justify-center items-center'>
+                <div className='w-full h-[40rem] flex flex-col justify-center items-center'>
                   <div className='text-lg font-bold'>You haven't posted anything...</div>
                   <div onClick={handlePost} className='text-base font-medium text-[#8d79ff] cursor-pointer underline'>create yout first post <LaunchIcon /></div>
                 </div>
@@ -143,7 +144,12 @@ function Profile() {
                 )
 
 
-            ) : (<div className='font-bold text-2xl w-full h-full flex justify-center items-center'>Please login!</div>)
+            ) : (
+              <div className='p-5 w-full h-full flex flex-col justify-center items-center'>
+                <img className='opacity-85 grayscale' src={imgLogin} alt="" width={300} />
+                <div className='font-semibold text-xl mt-2 italic text-slate-500'>Login To View!</div>
+              </div>
+            )
             }
           </div>
         </div>

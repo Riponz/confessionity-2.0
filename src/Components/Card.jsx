@@ -7,7 +7,8 @@ import CommentPost from './CommentPost';
 import ShowComments from './ShowComments';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 
-function Card({ username, content, time, comnts, id, delbtn }) {
+
+function Card({ username, content, time, comnts, id, delbtn, tags }) {
 
   const originalDate = new Date(time);
   const options = { year: 'numeric', month: 'short', day: '2-digit' };
@@ -18,17 +19,30 @@ function Card({ username, content, time, comnts, id, delbtn }) {
     <>
       {/* {console.log(comnts, "comments format check from card")} */}
       <div key={id} className='w-[100%] h-max flex flex-col rounded-lg bg-white justify-center my-1 items-start p-4 '>
-        <div className='w-full h-max flex flex-col justify-center items-start pl-2'>
+        <div className='w-full h-max flex flex-col justify-center items-start ml-1 pl-2'>
           <div className='font-bold sm:font-bold text-base sm:text-base lg:text-xl w-full'>{username ? username : <Skeleton height={40} />}</div>
           <div className='text-xs text-slate-600'>{time ? (<div className='flex justify-center items-start h-max rounded-full py-1 px-2 my-3 bg-[#e0dbfc]'><DateRangeIcon fontSize='small' /><div className='m-[.1rem]'>{formattedDate}</div></div>) : <div className='h-4'></div>}</div>
           <div className='mt-1 w-full whitespace-pre-wrap'><p >{content ? content : <Skeleton count={3} />}</p></div>
         </div>
 
+        <div className='card flex ml-1 justify-center items-center mt-5'>
+          
+          {
+            tags?.map(tag => {
+              return (
+                <div className='text-[#a394f8] mx-1.5 rounded-full'>
+                  <span className='font-bold'>#</span>{tag}
+                </div>
+            )
+            })
+          }
+        </div>
         {
           username ? (
             <ShowComments>
               <div className='pt-4 p-2 w-full'>
                 <Accordion>
+
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1-content"

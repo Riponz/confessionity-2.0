@@ -15,6 +15,11 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebaseConfig';
 import GroupSearch from '../Components/GroupPage';
 import { useNavigate, useLocation } from 'react-router-dom';
+import imgNoGroups from './../assets/imgNoGroups.png'
+import imgsearch from './../assets/search.png'
+import imgNoGroupsFound from './../assets/noGroupsFound.png'
+import imgLogin from './../assets/login.png'
+
 
 function Groups() {
   const str = "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Praesentium laudantium iure eum reiciendis eius dicta voluptatum officiis suscipit, nobis maiores libero quasi. Iste facere provident eligendi deleniti quod exercitationem quas in sapiente saepe et vero ullam officiis praesentium, vel dolores, laborum odio architecto doloremque autem sint fuga optio ipsa. Ipsam."
@@ -78,6 +83,10 @@ function Groups() {
   });
 
   const handleGroup = async () => {
+    // if(!gname || !gdesc){
+    //   notify("Please fill all the fields")
+    //   return;
+    // }
     const res = await axios.post(createGroup, {
       uid: uid,
       name: gname,
@@ -96,6 +105,7 @@ function Groups() {
     }).then(data => {
       console.log(data)
       setJoin(!join)
+      navigate('/group/' + id)
     }).catch(err => {
       console.log(err)
     })
@@ -105,6 +115,7 @@ function Groups() {
 
   return (
     <>
+      {uid ? (<button onClick={() => { setOpen(!open) }} className='fixed bottom-10 right-10 border-2 rounded-lg py-3 px-2 border-[#b2a4ff] bg-[#b2a4ff] hover:bg-[#897ec5] transition-all ease-in duration-200'>Create Group <AddCircleOutlineIcon /></button>) : ""}
       {/* <Navbar /> */}
       <ToastContainer />
       <div className={`h-full w-full flex justify-center items-center fixed top-0 z-40 bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 transition-all ease-in duration-500 ${open ? "" : "hidden"}`}>
@@ -157,16 +168,23 @@ function Groups() {
                           <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
                         </div>)
                       })
-                    ) : (<div className='font-bold text-2xl w-full h-full flex justify-center items-center'>No Joined Groups!</div>)
+                    ) : (<div className='p-5 w-full h-full flex flex-col justify-center items-center'>
+                      <img className='opacity-95 grayscale' src={imgNoGroups} alt="" width={220} />
+                      <div className='font-semibold text-xl mt-2 italic text-slate-500'>No Groups Joined!</div>
+                    </div>)
 
 
                   ) : (
-                    <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
+                    <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' >
                       <GroupCard />
                     </div>
                   )
               ) : (
-                <div className='w-full h-full text-xl font-bold flex justify-center items-center'>login to view...</div>
+                ////////////////////////////////////////////////////////////////////
+                <div className='p-5 w-full h-full flex flex-col justify-center items-center'>
+                <img className='opacity-85 grayscale' src={imgLogin} alt="" width={220} />
+                <div className='font-semibold text-xl mt-2 italic text-slate-500'>Login To View!</div>
+              </div>
               )
             }
 
@@ -193,23 +211,31 @@ function Groups() {
                 (allGroups != 0) ? (allGroups?.map(group => {
                   return (<div className='w-full  border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-2 flex justify-center items-center'>
                     <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
-                    {console.log(uid," uid")}
-                    {console.log(group.members," members")}
-                    {uid?(group?.members?.includes(uid) ? ("") : (
+                    {console.log(uid, " uid")}
+                    {console.log(group.members, " members")}
+                    {uid ? (group?.members?.includes(uid) ? ("") : (
                       <button onClick={() => { handleJoin(group._id) }} className='bg-[#b2a4ff] rounded-lg py-2 px-4'>Join</button>
-                    )):("")
+                    )) : ("")
                     }
 
 
                   </div>)
-                })) : (<div className='w-max h-max flex justify-center items-center text-xl p-4 font-bold'>no groups found...</div>)
+                })) : (
+                  <div className='p-5 w-full h-full flex flex-col justify-center items-center'>
+                <img className='opacity-85 grayscale' src={imgNoGroupsFound} alt="" width={220} />
+                <div className='font-semibold text-xl mt-2 italic text-slate-500'>No Groups Found!</div>
+              </div>
+                )
               )
             }
 
 
 
             {allGroups ? (<div></div>) : (
-              <div className='w-full h-full flex justify-center items-center text-2xl font-bold'>search groups...</div>
+              <div className='p-5 w-full h-full flex flex-col justify-center items-center'>
+                <img className='opacity-95 grayscale' src={imgsearch} alt="" width={200} />
+                <div className='font-semibold text-xl mt-2 italic text-slate-500'>Search Groups!</div>
+              </div>
             )}
 
 
@@ -219,7 +245,7 @@ function Groups() {
 
 
 
-        {uid ? (<button onClick={() => { setOpen(!open) }} className='fixed bottom-10 right-10 border-2 rounded-lg py-3 px-2 border-[#b2a4ff] bg-[#b2a4ff] hover:bg-[#897ec5] transition-all ease-in duration-200'>Create Group <AddCircleOutlineIcon /></button>) : ""}
+        {/* {uid ? (<button onClick={() => { setOpen(!open) }} className='fixed bottom-10 right-10 border-2 rounded-lg py-3 px-2 border-[#b2a4ff] bg-[#b2a4ff] hover:bg-[#897ec5] transition-all ease-in duration-200'>Create Group <AddCircleOutlineIcon /></button>) : ""} */}
 
       </section>
 
@@ -234,17 +260,6 @@ function Groups() {
               <input type="text" required={true} placeholder='search groups...' onChange={(e) => { setSearch(e.target.value) }} className='bg-transparent p-5 outline-none w-full' />
               <button type='submit' onClick={handleSearch}><SearchIcon /></button>
             </form>
-            {/* {
-              allGroups?.map(group => {
-                return (<div className='w-full  border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2 p-2 flex justify-center items-center'>
-                  <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
-                  <button onClick={() => { handleJoin(group._id) }} className='bg-[#b2a4ff] rounded-lg py-2 px-4'>Join</button>
-                </div>)
-              })
-            }
-            {allGroups ? (<div></div>) : (
-              <div>search groups</div>
-            )} */}
 
 
             {
@@ -264,7 +279,10 @@ function Groups() {
 
 
             {allGroups ? (<div></div>) : (
-              <div className='w-full h-full mt-4 flex justify-center items-center text-2xl font-bold'>search groups...</div>
+              <div className='p-5 w-full h-full flex flex-col justify-center items-center'>
+                <img className='opacity-95 grayscale' src={search} alt="" width={220} />
+                <div className='font-semibold text-xl mt-2 italic text-slate-500'>No Groups Joined!</div>
+              </div>
             )}
 
 
@@ -278,19 +296,30 @@ function Groups() {
           <div className='w-full h-[40rem] flex flex-col justify-start items-center overflow-scroll no-scrollbar'>
             <div className='font-bold h-max text-2xl text-[#b2a4ff]'>My groups</div>
             {
-              groups ? (
-                groups?.map(group => {
-                  return (
-                    <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
-                      <GroupCard gid={group._id} groupname={group.name} no={group.members.length} desc={group.bio} />
+              uid ? (
+                groups ?
+                  (
+                    groups?.length ? (
+                      groups?.map(group => {
+                        return (
+                          <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
+                            <GroupCard gid={group._id} groupname={group.name} no={group.members.length} desc={group.bio} />
+                          </div>
+                        )
+                      })
+                    ) : (
+                      <div className='p-5 w-full h-full flex flex-col justify-center items-center'>
+                        <img className='opacity-95 grayscale' src={imgNoGroups} alt="" width={220} />
+                        <div className='font-semibold text-xl mt-2 italic text-slate-500'>No Groups Joined!</div>
+                      </div>
+                    )
+
+                  ) : (
+                    <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' >
+                      <GroupCard />
                     </div>
                   )
-                })
-              ) : (
-                <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' >
-                  <GroupCard />
-                </div>
-              )
+              ) : (<div></div>)
             }
 
 
