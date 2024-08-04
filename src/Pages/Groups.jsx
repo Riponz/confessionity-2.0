@@ -19,6 +19,7 @@ import imgNoGroups from './../assets/imgNoGroups.png'
 import imgsearch from './../assets/search.png'
 import imgNoGroupsFound from './../assets/noGroupsFound.png'
 import imgLogin from './../assets/login.png'
+import { CircularProgress } from '@mui/material';
 
 
 function Groups() {
@@ -31,6 +32,7 @@ function Groups() {
   const [allGroups, setAllGroups] = useState()
   const [search, setSearch] = useState("")
   const [loading, setLoading] = useState(false)
+  const [load, setLoad] = useState(false)
 
 
   const { uid, username, groups, setGroups, setUid, setEmail, setUsername, email } = useContext(userContext);
@@ -64,16 +66,19 @@ function Groups() {
 
   const handleSearch = (e) => {
     e.preventDefault()
+    setLoad(true)
     setLoading(true)
     setTimeout(() => {
     }, 1000000)
     axios.get(`${getAllGroups}${search}`)
       .then((groups) => {
         setAllGroups(groups.data)
+        setLoad(false)
       })
       .catch(err => {
         notify(err.message)
       })
+    setLoading(false)
     setLoading(false)
   }
 
@@ -118,7 +123,7 @@ function Groups() {
       {uid ? (<button onClick={() => { setOpen(!open) }} className='fixed bottom-10 right-10 border-2 rounded-lg py-3 px-2 border-[#b2a4ff] bg-[#b2a4ff] hover:bg-[#897ec5] transition-all ease-in duration-200'>Create Group <AddCircleOutlineIcon /></button>) : ""}
       {/* <Navbar /> */}
       <ToastContainer />
-      <div className={`h-full w-full flex justify-center items-center fixed top-0 z-40 bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 transition-all ease-in duration-500 ${open ? "" : "hidden"}`}>
+      <div className={`h-full w-full flex justify-center items-center fixed top-0 z-50 bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 transition-all ease-in duration-500 ${open ? "" : "hidden"}`}>
         <div className='w-[25rem] h-max py-6 relative bg-white rounded-lg flex flex-col justify-center items-center shadow-2xl'>
           <CloseIcon onClick={() => { setOpen(!open) }} className='absolute top-4 right-4' />
           <div className='font-bold text-2xl'>Create Group</div>
@@ -143,20 +148,6 @@ function Groups() {
           <div className='w-full h-full flex flex-col px-4 justify-start items-center  overflow-scroll no-scrollbar'>
             <div className='font-bold text-2xl text-[#b2a4ff]'>My groups</div>
 
-            {/* {
-              groups ?
-                (
-                  groups?.map(group => {
-                    return (<div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
-                      <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
-                    </div>)
-                  })
-                ) : (
-                  <div className='w-full bg-gradient-to-r from-violet-100 to-indigo-100 border-2 border-[#cbc3fa] shadow-lg rounded-lg my-2' onClick={() => { handleSpecificGroup(group._id) }}>
-                    <GroupCard />
-                  </div>
-                )
-            } */}
 
             {
               uid ? (
@@ -182,9 +173,9 @@ function Groups() {
               ) : (
                 ////////////////////////////////////////////////////////////////////
                 <div className='p-5 w-full h-full flex flex-col justify-center items-center'>
-                <img className='opacity-85 grayscale' src={imgLogin} alt="" width={220} />
-                <div className='font-semibold text-xl mt-2 italic text-slate-500'>Login To View!</div>
-              </div>
+                  <img className='opacity-85 grayscale' src={imgLogin} alt="" width={220} />
+                  <div className='font-semibold text-xl mt-2 italic text-slate-500'>Login To View!</div>
+                </div>
               )
             }
 
@@ -200,7 +191,9 @@ function Groups() {
           <div className="search w-full h-full bg-white rounded-lg my-1 py-5 px-3 flex flex-col justify-start items-center overflow-scroll no-scrollbar">
             <form className='w-[16rem] ml-5 rounded-lg h-8 flex justify-center items-center bg-[#e5e7eb]'>
               <input type="text" required={true} placeholder='search groups...' onChange={(e) => { setSearch(e.target.value) }} className='bg-transparent outline-none w-[70%]' />
-              <button type='submit' onClick={handleSearch}><SearchIcon /></button>
+              <button type='submit' className='flex justify-center items-center' onClick={handleSearch}> {load ? (<CircularProgress thickness={6} size={20} sx={{
+                color: "#7F6FD8"
+              }} />) : (<SearchIcon />)} </button>
             </form>
 
             {
@@ -222,9 +215,9 @@ function Groups() {
                   </div>)
                 })) : (
                   <div className='p-5 w-full h-full flex flex-col justify-center items-center'>
-                <img className='opacity-85 grayscale' src={imgNoGroupsFound} alt="" width={220} />
-                <div className='font-semibold text-xl mt-2 italic text-slate-500'>No Groups Found!</div>
-              </div>
+                    <img className='opacity-85 grayscale' src={imgNoGroupsFound} alt="" width={220} />
+                    <div className='font-semibold text-xl mt-2 italic text-slate-500'>No Groups Found!</div>
+                  </div>
                 )
               )
             }
@@ -255,7 +248,7 @@ function Groups() {
       <section className='flex flex-col lg:hidden w-full mb-4 mt-[13rem] md:mt-[11rem] lg:mt-20 h-full justify-start py-1 items-center overflow-scroll no-scrollbar'>
         <div className='w-[95%] h-max flex flex-col justify-center items-center'>
 
-          <div className="search w-full h-max bg-white rounded-lg my-1 py-5 pt-8 px-3 flex flex-col justify-center items-center overflow-scroll no-scrollbar">
+          <div className="search w-full h-max bg-white rounded-lg my-1 py-5 pt-8 pb-8 px-3 flex flex-col justify-center items-center overflow-scroll no-scrollbar">
             <form className='w-[90%] md:w-[90%] p-5 rounded-lg h-8 flex justify-center items-center bg-[#e5e7eb]'>
               <input type="text" required={true} placeholder='search groups...' onChange={(e) => { setSearch(e.target.value) }} className='bg-transparent p-5 outline-none w-full' />
               <button type='submit' onClick={handleSearch}><SearchIcon /></button>
@@ -272,18 +265,25 @@ function Groups() {
                     <GroupCard groupname={group.name} no={group.members.length} desc={group.bio} />
                     <button onClick={() => { handleJoin(group._id) }} className='bg-[#b2a4ff] rounded-lg py-2 px-4'>Join</button>
                   </div>)
-                })) : (<div className='w-max h-max flex justify-center items-center text-xl p-4 font-bold'>no groups found...</div>)
+                })) : (
+                  <div className='w-max h-max flex justify-center items-center text-xl p-4 font-bold'>no groups found...</div>
+
+
+
+
+                  ////////////////////////////////////
+                )
               )
             }
 
 
-
+            {/* 
             {allGroups ? (<div></div>) : (
               <div className='p-5 w-full h-full flex flex-col justify-center items-center'>
-                <img className='opacity-95 grayscale' src={search} alt="" width={220} />
-                <div className='font-semibold text-xl mt-2 italic text-slate-500'>No Groups Joined!</div>
+                <img className='opacity-95 grayscale' src={imgsearch} alt="" width={220} />
+                <div className='font-semibold text-xl mt-2 italic text-slate-500'>Search Groups!</div>
               </div>
-            )}
+            )} */}
 
 
           </div>
@@ -309,7 +309,7 @@ function Groups() {
                       })
                     ) : (
                       <div className='p-5 w-full h-full flex flex-col justify-center items-center'>
-                        <img className='opacity-95 grayscale' src={imgNoGroups} alt="" width={220} />
+                        <img className='opacity-95 z-10 grayscale' src={imgNoGroups} alt="" width={220} />
                         <div className='font-semibold text-xl mt-2 italic text-slate-500'>No Groups Joined!</div>
                       </div>
                     )
