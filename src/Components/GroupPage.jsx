@@ -42,7 +42,7 @@ function GroupPage() {
     return (
         <>
             {/* <Navbar /> */}
-            <div className='px-4 w-full h-full'>
+            <div className='px-4 w-full h-full overflow-scroll no-scrollbar'>
                 <div className='w-full  bg-white mt-[6.5rem] mb-4 lg:mb-0 md:mt-[5.5rem] lg:mt-20 h-max flex flex-col my-1  rounded-lg py-5 justify-start items-center'>
                     <div className="name font-bold w-full flex justify-center items-center text-xl">{gDetails?.name || <div className='w-[10rem]'><Skeleton height={30} /></div>}</div>
                     {
