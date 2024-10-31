@@ -27,7 +27,7 @@ function Post() {
             return
         }
         try {
-            const isAbusive = await axios.post("http://65.2.121.7:5000/sentiment", {
+            const isAbusive = await axios.post("https://e07a-65-2-121-7.ngrok-free.app/sentiment", {
                 text: content
             })
             console.log(isAbusive.data)
